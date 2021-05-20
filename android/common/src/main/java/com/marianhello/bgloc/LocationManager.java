@@ -40,15 +40,15 @@ public class LocationManager {
         return mLocationManager;
     }
 
-    public Promise<Location> getCurrentLocation(final int timeout, final long maximumAge, final boolean enableHighAccuracy) {
-        final Promise<Location> promise = Promises.promise();
+    public Promise<CurrentLocationResult> getCurrentLocation(final int timeout, final long maximumAge, final boolean enableHighAccuracy) {
+        final Promise<CurrentLocationResult> promise = Promises.promise();
 
         PermissionManager permissionManager = PermissionManager.getInstance(mContext);
         permissionManager.checkPermissions(Arrays.asList(PERMISSIONS), new PermissionManager.PermissionRequestListener() {
             @Override
             public void onPermissionGranted() {
                 try {
-                    Location currentLocation = getCurrentLocationNoCheck(timeout, maximumAge, enableHighAccuracy);
+                    CurrentLocationResult currentLocation = getCurrentLocationNoCheck(timeout, maximumAge, enableHighAccuracy);
                     promise.set(currentLocation);
                 } catch (TimeoutException e) {
                     promise.setError(e);
@@ -77,18 +77,18 @@ public class LocationManager {
      * @throws TimeoutException
      */
     @SuppressLint("MissingPermission")
-    public Location getCurrentLocationNoCheck(int timeout, long maximumAge, boolean enableHighAccuracy) throws InterruptedException, TimeoutException {
+    public CurrentLocationResult getCurrentLocationNoCheck(int timeout, long maximumAge, boolean enableHighAccuracy) throws InterruptedException, TimeoutException {
         final long minLocationTime = System.currentTimeMillis() - maximumAge;
         final android.location.LocationManager locationManager = (android.location.LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
         Location lastKnownGPSLocation = locationManager.getLastKnownLocation(android.location.LocationManager.GPS_PROVIDER);
         if (lastKnownGPSLocation != null && lastKnownGPSLocation.getTime() >= minLocationTime) {
-            return lastKnownGPSLocation;
+            return new CurrentLocationResult(lastKnownGPSLocation, true);
         }
 
         Location lastKnownNetworkLocation = locationManager.getLastKnownLocation(android.location.LocationManager.NETWORK_PROVIDER);
         if (lastKnownNetworkLocation != null && lastKnownNetworkLocation.getTime() >= minLocationTime) {
-            return lastKnownNetworkLocation;
+            return new CurrentLocationResult(lastKnownNetworkLocation, true);
         }
 
         Criteria criteria = new Criteria();
@@ -103,7 +103,7 @@ public class LocationManager {
         }
 
         if (locationListener.mLocation != null) {
-            return locationListener.mLocation;
+            return new CurrentLocationResult(locationListener.mLocation, false);
         }
 
         return null;
@@ -132,6 +132,23 @@ public class LocationManager {
         @Override
         public void onProviderDisabled(String s) {
 
+        }
+    }
+
+    public static class CurrentLocationResult {
+        /**
+         * The location reported by the hardware
+         */
+        public final Location location;
+        /**
+         * True: location is cached and may be old. As such, it may have been processed by our location service already
+         * False: location had been freshly fetched from the hardware.
+         */
+        public final boolean isCached;
+
+        public CurrentLocationResult(Location location, boolean isCached) {
+            this.location = location;
+            this.isCached = isCached;
         }
     }
 }

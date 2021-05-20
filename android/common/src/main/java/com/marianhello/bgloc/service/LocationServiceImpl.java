@@ -18,6 +18,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Location;
+import android.location.LocationListener;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Binder;
@@ -329,6 +331,9 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
                 case CommandId.STOP_HEADLESS_TASK:
                     stopHeadlessTask();
                     break;
+                case CommandId.SET_LOCATION:
+                    setLocation((Location) arg);
+                    break;
             }
         } catch (Exception e) {
             logger.error("processCommand: exception", e);
@@ -524,6 +529,13 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
                 mProvider.onCommand(command, arg1);
             }
         });
+    }
+
+    @Override
+    public void setLocation(Location location) {
+        if (mProvider instanceof LocationListener) {
+            ((LocationListener) mProvider).onLocationChanged(location);
+        }
     }
 
     @Override

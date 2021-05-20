@@ -2,6 +2,7 @@ package com.marianhello.bgloc.service;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Build;
 
 import com.marianhello.bgloc.Config;
@@ -126,5 +127,15 @@ public class LocationServiceProxy implements LocationService, LocationServiceInf
 
     private void executeIntentCommand(Intent intent) {
         mContext.startService(intent);
+    }
+
+    @Override
+    public void setLocation(Location location) {
+        if (!isStarted()) { return; }
+
+        Intent intent = mIntentBuilder
+                .setCommand(CommandId.SET_LOCATION, location)
+                .build();
+        executeIntentCommand(intent);
     }
 }

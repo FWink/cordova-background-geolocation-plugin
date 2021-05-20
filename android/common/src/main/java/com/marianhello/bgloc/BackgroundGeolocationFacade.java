@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -301,12 +300,16 @@ public class BackgroundGeolocationFacade {
         logger.info("Getting current location with timeout:{} maximumAge:{} enableHighAccuracy:{}", timeout, maximumAge, enableHighAccuracy);
 
         LocationManager locationManager = LocationManager.getInstance(getContext());
-        Promise<Location> promise = locationManager.getCurrentLocation(timeout, maximumAge, enableHighAccuracy);
+        Promise<LocationManager.CurrentLocationResult> promise = locationManager.getCurrentLocation(timeout, maximumAge, enableHighAccuracy);
         try {
             promise.await();
-            Location location = promise.get();
-            if (location != null) {
-                return BackgroundLocation.fromLocation(location);
+            LocationManager.CurrentLocationResult result = promise.get();
+            if (result != null) {
+                if (!result.isCached) {
+                    //feed this back into our service
+                    mService.setLocation(result.location);
+                }
+                return BackgroundLocation.fromLocation(result.location);
             }
 
             Throwable error = promise.getError();
