@@ -355,9 +355,10 @@ public class BackgroundGeolocationFacade {
     }
 
     public synchronized Config getConfig() {
-        if (mConfig != null) {
-            return mConfig;
-        }
+        //TODO fwink use a broadcast listener or such to get notified abut external updates to the config
+//        if (mConfig != null) {
+//            return mConfig;
+//        }
 
         try {
             mConfig = getStoredConfig();
