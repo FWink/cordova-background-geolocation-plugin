@@ -1,5 +1,67 @@
 # Changelog
 
+## [Unreleased](https://github.com/HaylLtd/cordova-background-geolocation-plugin/tree/HEAD)
+
+**Implemented enhancements:**
+
+- Support AndroidX [\#15](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/15)
+
+**Fixed bugs:**
+
+- Android 12 issues [\#59](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/59)
+
+**Documentation:**
+
+- Add guide on contributing [\#44](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/44)
+- Allow users to view documentation for specific versions [\#37](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/37)
+- Improve documentation around android background location posting [\#29](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/29)
+
+**Closed issues:**
+
+- New Google Play Guidelines  [\#57](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/57)
+- Capture in a regular basis [\#45](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/45)
+- Make the tests run on every commit [\#30](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/30)
+- Clean up a bit [\#28](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/28)
+- Example repository [\#27](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/27)
+
+**Merged pull requests:**
+
+- Android 12 accuracy issue \(\#62\) [\#63](https://github.com/HaylLtd/cordova-background-geolocation-plugin/pull/63) ([HarelM](https://github.com/HarelM))
+
+## [v2.0.1](https://github.com/HaylLtd/cordova-background-geolocation-plugin/tree/v2.0.1) (2021-10-01)
+
+**Closed issues:**
+
+- Adjust android-permissions package name [\#51](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/51)
+
+## [v2.0.0](https://github.com/HaylLtd/cordova-background-geolocation-plugin/tree/v2.0.0) (2021-10-01)
+
+**Merged pull requests:**
+
+- Add support for AndroidX [\#49](https://github.com/HaylLtd/cordova-background-geolocation-plugin/pull/49) ([HarelM](https://github.com/HarelM))
+
+## [v1.1.0](https://github.com/HaylLtd/cordova-background-geolocation-plugin/tree/v1.1.0) (2021-06-27)
+
+**Implemented enhancements:**
+
+- \[Feature\] Transaction-based access to the GPS positions buffer [\#18](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/18)
+- Add promises and subscription to js interface [\#16](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/16)
+
+**Documentation:**
+
+- Move documentation to GitHub Pages [\#32](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/32)
+
+**Closed issues:**
+
+- Remove old/stale branches [\#41](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/41)
+- Update project documentation to reflect new repository and package details [\#11](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/11)
+
+**Merged pull requests:**
+
+- Version 1.1 - Merge develop into stable [\#43](https://github.com/HaylLtd/cordova-background-geolocation-plugin/pull/43) ([HarelM](https://github.com/HarelM))
+
+## [v1.0.0](https://github.com/HaylLtd/cordova-background-geolocation-plugin/tree/v1.0.0) (2021-05-04)
+
 ## [v1.0.0-rc.5](https://github.com/HaylLtd/cordova-background-geolocation-plugin/tree/v1.0.0-rc.5) (2021-05-03)
 
 **Fixed bugs:**

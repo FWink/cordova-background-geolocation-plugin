@@ -13,8 +13,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.text.TextUtils;
 
 import com.github.jparkie.promise.Promise;
@@ -278,6 +278,11 @@ public class BackgroundGeolocationFacade {
     public Collection<BackgroundLocation> getValidLocations() {
         LocationDAO dao = DAOFactory.createLocationDAO(getContext());
         return dao.getValidLocations();
+    }
+
+    public Collection<BackgroundLocation> getValidLocationsAndDelete() {
+        LocationDAO dao = DAOFactory.createLocationDAO(getContext());
+        return dao.getValidLocationsAndDelete();
     }
 
     public BackgroundLocation getStationaryLocation() {

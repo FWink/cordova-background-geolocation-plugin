@@ -77,6 +77,13 @@ static NSString * const TAG = @"CDVBackgroundGeolocation";
         } else {
             [self sendError:error];
         }
+        CDVPluginResult* result = nil;
+        if ([facade configure:config error:&error]) {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        } else {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:[self errorToDictionary:error]];
+        }
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }];
 }
 
@@ -95,6 +102,13 @@ static NSString * const TAG = @"CDVBackgroundGeolocation";
         } else {
             [self sendError:error];
         }
+        CDVPluginResult* result = nil;
+        if ([facade configure:config error:&error]) {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        } else {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:[self errorToDictionary:error]];
+        }
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }];
 }
 
@@ -204,6 +218,20 @@ static NSString * const TAG = @"CDVBackgroundGeolocation";
     NSLog(@"%@ #%@", TAG, @"getValidLocations");
     [self.commandDelegate runInBackground:^{
         NSArray *locations = [facade getValidLocations];
+        NSMutableArray* dictionaryLocations = [[NSMutableArray alloc] initWithCapacity:[locations count]];
+        for (MAURLocation* location in locations) {
+            [dictionaryLocations addObject:[location toDictionaryWithId]];
+        }
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:dictionaryLocations];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    }];
+}
+
+- (void) getValidLocationsAndDelete:(CDVInvokedUrlCommand*)command
+{
+    NSLog(@"%@ #%@", TAG, @"getValidLocationsAndDelete");
+    [self.commandDelegate runInBackground:^{
+        NSArray *locations = [facade getValidLocationsAndDelete];
         NSMutableArray* dictionaryLocations = [[NSMutableArray alloc] initWithCapacity:[locations count]];
         for (MAURLocation* location in locations) {
             [dictionaryLocations addObject:[location toDictionaryWithId]];
