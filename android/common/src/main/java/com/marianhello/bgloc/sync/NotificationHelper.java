@@ -84,6 +84,10 @@ public class NotificationHelper {
                 PendingIntent contentIntent = PendingIntent.getActivity(appContext, 0, launchIntent, flags);
                 builder.setContentIntent(contentIntent);
             }
+            
+            //for GPS tracking services: show the notification immediately without delay
+            //allows for better user feedback and transparency
+            builder.setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE);
 
             Notification notification = builder.build();
             notification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE | Notification.FLAG_NO_CLEAR;
