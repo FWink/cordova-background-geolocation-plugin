@@ -197,6 +197,26 @@
             <string name="plugin_bgloc_account_type">$ACCOUNT_TYPE</string>
             <string name="plugin_bgloc_content_authority">$CONTENT_AUTHORITY</string>
         </config-file>
+
+        <edit-config file="res/xml/authenticator.xml" target="/*" mode="overwrite">
+          <account-authenticator
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:accountType="@string/plugin_bgloc_account_type"
+              android:icon="$ICON"
+              android:smallIcon="$SMALL_ICON"
+              android:label="$ACCOUNT_LABEL"/>
+        </edit-config>
+
+        <edit-config file="res/xml/syncadapter.xml" target="/*" mode="overwrite">
+          <sync-adapter
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:contentAuthority="@string/plugin_bgloc_content_authority"
+              android:accountType="@string/plugin_bgloc_account_type"
+              android:userVisible="false"
+              android:supportsUploading="true"
+              android:allowParallelSyncs="false"
+              android:isAlwaysSyncable="true"/>
+        </edit-config>
     </platform>
 
     <platform name="ios">
