@@ -19,6 +19,7 @@ import android.text.TextUtils;
 
 import com.github.jparkie.promise.Promise;
 import com.intentfilter.androidpermissions.PermissionManager;
+import com.intentfilter.androidpermissions.models.DeniedPermissions;
 import com.marianhello.bgloc.data.BackgroundActivity;
 import com.marianhello.bgloc.data.BackgroundLocation;
 import com.marianhello.bgloc.data.ConfigurationDAO;
@@ -53,7 +54,7 @@ public class BackgroundGeolocationFacade {
 
     public static final String[] PERMISSIONS = {
             Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION,
     };
 
     private boolean mServiceBroadcastReceiverRegistered = false;
@@ -218,6 +219,14 @@ public class BackgroundGeolocationFacade {
             @Override
             public void onPermissionGranted() {
                 logger.info("User granted requested permissions");
+                permissionManager.checkPermissions(Arrays.asList(Manifest.permission.POST_NOTIFICATIONS), new PermissionManager.PermissionRequestListener() {
+                    @Override
+                    public void onPermissionGranted() {} // noop
+        
+                    @Override
+                    public void onPermissionDenied(DeniedPermissions deniedPermissions) {} // noop
+                });
+
                 // watch location mode changes
                 registerLocationModeChangeReceiver();
                 registerServiceBroadcast();
@@ -225,7 +234,7 @@ public class BackgroundGeolocationFacade {
             }
 
             @Override
-            public void onPermissionDenied() {
+            public void onPermissionDenied(DeniedPermissions deniedPermissions) {
                 logger.info("User denied requested permissions");
                 if (mDelegate != null) {
                     mDelegate.onAuthorizationChanged(BackgroundGeolocationFacade.AUTHORIZATION_DENIED);
